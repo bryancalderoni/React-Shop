@@ -1,7 +1,12 @@
 import { NavLink } from "react-router-dom";
 import Avatar from "../../../assets/Avatar.png";
+import { CartPanel } from "./CartPanel";
+import { useCartPanel } from "@/services/cart";
 
 export function NavBar() {
+
+  const isCartPanelOpen = useCartPanel( state => state.open);
+  const toggleCartPanel = useCartPanel( state => state.toggle);
 
 const isActive = (obj: { isActive: boolean}) => {
     return obj.isActive ?  'font-bold text-sky-400' : 'text-white'
@@ -14,20 +19,21 @@ const isActive = (obj: { isActive: boolean}) => {
           <img src={Avatar} alt="logo" className="w-16 rounded-full"/>
           <NavLink to="shop" className={isActive}> SHOP </NavLink>
         </div>
-{/* 
-        <NavLink to="login">LOGIN</NavLink>
-        <NavLink to="shop">SHOP</NavLink>
-        <NavLink to="cms">CMS</NavLink> */}
+
 
 
         {/* Cart Button badge */}
         <div>
-           <button className="btn accent lg">
+           <button className="btn accent lg" onClick={toggleCartPanel}>
             Cart: 0
            </button>
            
         </div>
 
+{/* { Cart Panel} */}
+{ isCartPanelOpen && <CartPanel />}
+
+{/* Action button */}
         <div className="fixed bottom-2 right-2 p-5">
             <NavLink to="login" className="btn accent lg">login</NavLink>
             <NavLink to="cms" className="btn accent lg">cms</NavLink>
